@@ -3,7 +3,7 @@
 
     "name": "SoundCloud Desktop Notifications",
     "description": "Shows a desktop notification every time a track changes on soundcloud.com",
-    "version": "1.2",
+    "version": "2",
     "icons": {
         "64": "icon64.png",
         "48": "icon48.png",
