@@ -8,7 +8,7 @@ define("vendor/jariz/events", ["require", "event-bus", "lib/play-manager", "vend
     exports.processAction = function(action) {
         switch(action) {
             case "pause":
-                playmanager.pauseCurrent();
+                playmanager.toggleCurrent();
                 break;
             case "next":
                 playmanager.playNext();

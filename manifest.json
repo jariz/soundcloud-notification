@@ -30,5 +30,29 @@
         "matches": ["https://soundcloud.com/*"]
     },
 
-    "web_accessible_resources": ["soundcloud.notification.web.js"]
+    "web_accessible_resources": ["soundcloud.notification.web.js"],
+
+    "commands": {
+        "playback-playpause": {
+            "suggested_key": {
+                "default": "MediaPlayPause"
+            },
+            "global": true,
+            "description": "Pause/resume soundcloud playback"
+        },
+        "playback-next": {
+            "suggested_key": {
+                "default": "MediaNextTrack"
+            },
+            "global": true,
+            "description": "Skip to next track on soundcloud"
+        },
+        "playback-prev": {
+            "suggested_key": {
+                "default": "MediaPrevTrack"
+            },
+            "global": true,
+            "description": "Skip to previous track on soundcloud"
+        }
+    }
 }

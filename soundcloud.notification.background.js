@@ -1,4 +1,5 @@
 var ports = new Array();
+var activePort = undefined;
 var SCNRCV = {
     "connect": function () {
         chrome.notifications.onButtonClicked.addListener(function(notificationId, buttonIndex) {
@@ -20,20 +21,52 @@ var SCNRCV = {
                     break;
             }
         })
+
+        chrome.commands.onCommand.addListener(function(command) {
+            var action = "";
+            switch(command) {
+                case "playback-playpause":
+                    action = "pause";
+                    break;
+                case "playback-next":
+                    action = "next";
+                    break;
+                case "playback-prev":
+                    action = "previous";
+                    break;
+                default:
+                    throw "wut";
+            }
+
+            if(typeof activePort != "undefined") {
+                activePort.postMessage({
+                    action: action
+                });
+            } else {
+                console.warn("Couldn't post message cuz active port isn't set (yet).");
+            }
+        })
+
         chrome.runtime.onConnectExternal.addListener(function (portt) {
+            activePort = portt;
             console.log(portt);
 
             portt.onMessage.addListener(function (msg) {
                 var id = "scn" + Math.random();
                 ports[id] = portt;
+                var artwork =
+                    typeof msg.artwork_url == "string" ?
+                        msg.artwork_url :
+                        msg.user.avatar_url;
+                artwork = artwork.replace("-large", "-t200x200");
+
                 chrome.notifications.create(
                     id,
                     {
                         type: "basic",
                         title: msg.title,
                         message: msg.user.username,
-                        //imageUrl: resp.artwork_url.replace("-large", "-t500x500"),
-                        iconUrl: msg.artwork_url.replace("-large", "-t200x200"),
+                        iconUrl:  artwork,
                         buttons: [
                             {
                                 title: "Previous",
